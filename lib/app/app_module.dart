@@ -19,15 +19,17 @@ class AppModule extends StatelessWidget {
           create: (_) => SqliteConnectionFactory(),
           lazy: false,
         ),
-        Provider(create: (_) => FirebaseAuth.instance),
+        Provider(
+          create: (_) => FirebaseAuth.instance,
+        ),
         Provider<UserRepository>(
           create: (context) => UserRepositoryImpl(
-            firebaseAuth: context.read<FirebaseAuth>(),
+            firebaseAuth: context.read(),
           ),
         ),
         Provider<UserService>(
-          create: (_) => UserServiceImpl(
-            userRepository: context.read<UserRepository>(),
+          create: (context) => UserServiceImpl(
+            userRepository: context.read(),
           ),
         ),
       ],
