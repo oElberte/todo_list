@@ -12,6 +12,27 @@ class LoginController extends TodoListChangeNotifier {
 
   bool get hasInfo => infoMessage != null;
 
+  Future<void> googleLogin() async {
+    try {
+      showLoadingAndResetState();
+      infoMessage = null;
+      notifyListeners();
+
+      final user = await _userService.googleLogin();
+
+      if (user != null) {
+        success();
+      } else {
+        setError('Erro ao realizar login com o Google');
+      }
+    } on AuthException catch (e) {
+      setError(e.message);
+    } finally {
+      hideLoading();
+      notifyListeners();
+    }
+  }
+
   Future<void> login(String email, String password) async {
     try {
       showLoadingAndResetState();
@@ -22,9 +43,11 @@ class LoginController extends TodoListChangeNotifier {
       if (user != null) {
         success();
       } else {
+        _userService.googleLogout();
         setError('Usuário ou senha inválidos');
       }
     } on AuthException catch (e) {
+      _userService.googleLogout();
       setError(e.message);
     } finally {
       hideLoading();
