@@ -117,7 +117,9 @@ class UserRepositoryImpl implements UserRepository {
       log('$e');
       log('$s');
       if (e.code == 'account-exists-with-different-credential') {
-        throw AuthException(message: '''
+        throw AuthException(
+            message:
+                '''
           Login inválido, você se registrou com os seguintes provedores:
           ${loginMethods?.join(', ')}
         ''');
@@ -129,7 +131,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<void> googleLogout() async {
+  Future<void> logout() async {
     await GoogleSignIn().signOut();
     _firebaseAuth.signOut();
   }

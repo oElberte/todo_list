@@ -43,11 +43,11 @@ class LoginController extends TodoListChangeNotifier {
       if (user != null) {
         success();
       } else {
-        _userService.googleLogout();
+        _userService.logout();
         setError('Usuário ou senha inválidos');
       }
     } on AuthException catch (e) {
-      _userService.googleLogout();
+      _userService.logout();
       setError(e.message);
     } finally {
       hideLoading();
