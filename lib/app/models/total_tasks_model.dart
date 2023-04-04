@@ -6,4 +6,6 @@ class TotalTasksModel {
     required this.tasks,
     required this.tasksFinished,
   });
+
+  int get remainingTasks => tasks - tasksFinished;
 }

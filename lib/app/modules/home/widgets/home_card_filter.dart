@@ -55,7 +55,7 @@ class HomeCardFilter extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${totalTasks?.tasks ?? 0} TASKS',
+              '${totalTasks?.remainingTasks ?? 0} TASKS',
               style: context.titleStyle.copyWith(
                 fontSize: 10,
                 color: selected ? Colors.white : Colors.grey,
