@@ -12,7 +12,7 @@ class TodoListListenerNotifier {
 
   void listener({
     required BuildContext context,
-    required SuccessVoidCallback successCallback,
+    SuccessVoidCallback? successCallback,
     ErrorVoidCallback? errorCallback,
     EverVoidCallback? everCallback,
   }) {
@@ -32,7 +32,9 @@ class TodoListListenerNotifier {
         }
         Messages.of(context).showError(changeNotifier.error ?? 'Erro interno');
       } else if (changeNotifier.isSuccess) {
-        successCallback(changeNotifier, this);
+        if (successCallback != null) {
+          successCallback(changeNotifier, this);
+        }
       }
     });
   }
