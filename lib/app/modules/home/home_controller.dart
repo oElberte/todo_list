@@ -14,6 +14,9 @@ class HomeController extends TodoListChangeNotifier {
   TotalTasksModel? tomorrowTotalTasks;
   TotalTasksModel? weekTotalTasks;
 
+  List<TaskModel> allTasks = [];
+  List<TaskModel> filteredTasks = [];
+
   HomeController({
     required TasksService tasksService,
   }) : _tasksService = tasksService;
@@ -43,6 +46,39 @@ class HomeController extends TodoListChangeNotifier {
       tasks: weekTasks.tasks.length,
       tasksFinished: weekTasks.tasks.where((task) => task.finished).length,
     );
+    notifyListeners();
+  }
+
+  Future<void> findTasks({required TaskFilterEnum filter}) async {
+    filterSelected = filter;
+    showLoading();
+    notifyListeners();
+    List<TaskModel> tasks;
+
+    switch (filter) {
+      case TaskFilterEnum.today:
+        tasks = await _tasksService.getToday();
+        break;
+      case TaskFilterEnum.tomorrow:
+        tasks = await _tasksService.getTomorrow();
+        break;
+      case TaskFilterEnum.week:
+        final weekModel = await _tasksService.getWeek();
+        tasks = weekModel.tasks;
+        break;
+    }
+
+    filteredTasks = tasks;
+    allTasks = tasks;
+
+    hideLoading();
+    notifyListeners();
+
+  }
+
+  Future<void> refreshPage() async {
+    await findTasks(filter: filterSelected);
+    await loadTotalTasks();
     notifyListeners();
   }
 }
