@@ -29,9 +29,6 @@ class _LoginPageState extends State<LoginPage> {
       changeNotifier: context.read<LoginController>(),
     ).listener(
       context: context,
-      successCallback: (notifier, listenerInstance) {
-        print('Login efetuado com sucesso');
-      },
       everCallback: (notifier, listenerInstance) {
         if (notifier is LoginController) {
           if (notifier.hasInfo) {
