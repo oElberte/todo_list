@@ -124,4 +124,14 @@ class HomeController extends TodoListChangeNotifier {
     showFinishedTasks = !showFinishedTasks;
     refreshPage();
   }
+
+  Future<void> deleteTask(TaskModel task) async {
+    showLoadingAndResetState();
+    notifyListeners();
+
+    await _tasksService.deleteTask(task);
+
+    hideLoading();
+    refreshPage();
+  }
 }
