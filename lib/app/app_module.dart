@@ -37,6 +37,7 @@ class AppModule extends StatelessWidget {
           create: (context) => AuthProvider(
             firebaseAuth: context.read(),
             userService: context.read(),
+            sqliteConnectionFactory: context.read()
           )..loadListener(),
           lazy: false,
         ),
